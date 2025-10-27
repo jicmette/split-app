@@ -1,50 +1,27 @@
-# Welcome to your Expo app 👋
+# Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+As a developer, I'm always looking to expand my skills from the web to other platforms. This project represents my first step into mobile development, applying my existing knowledge of React to the React Native ecosystem.
 
-## Get started
+This software is the foundational prototype for "Split," a personal finance app. It's a proactive budgeting tool that takes a user's salary, subtracts their fixed bills and savings goals, and then calculates a simple "Weekly Spending Allowance" to help them stay on track.
 
-1. Install dependencies
+The purpose of this specific module was to build the core user interface and local functionality of the app. This included setting up the development environment, creating multiple screens (a Dashboard and an "Add Expense" form), implementing navigation between them using React Navigation, and using `AsyncStorage` to save the user's budget data locally on their device.
 
-   ```bash
-   npm install
-   ```
+[Software Demo Video](I will add the link before November 8, 2025)
 
-2. Start the app
+# Development Environment
 
-   ```bash
-   npx expo start
-   ```
+* **IDE:** Visual Studio Code
+* **Framework:** React Native (with Expo)
+* **Testing:** Android Studio (Emulator) & Expo Go (for iOS device)
+* **Package Manager:** `pnpm`
+* **Version Control:** Git / GitHub
+* **Navigation:** React Navigation
+* **Local Storage:** AsyncStorage
 
-In the output, you'll find options to open the app in a
+The app is written in **TypeScript (TSX)** and **JavaScript**.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+# Useful Websites
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+* [Expo Documentation](https://docs.expo.dev/)
+* [React Navigation Docs](https://reactnavigation.org/)
+* [React Native - AsyncStorage Docs](https://react-native-async-storage.github.io/async-storage/)
