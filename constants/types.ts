@@ -6,7 +6,7 @@ export type UserProfile = {
 };
 
 // Expense Types
-export type Expense = {
+export type Bill = {
   id: string;
   name: string;
   amount: number;
