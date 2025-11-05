@@ -12,7 +12,7 @@ The purpose of this specific module was to build the app's complete local functi
 4.  **State 3 (Paycheck Checklist):** The main dashboard displays the full, interactive checklist. Users can tap each bill to mark it as "saved" (🔒/🔓).
 5.  **Smart Data Syncing:** The dashboard uses the `useFocusEffect` hook to load all data from `AsyncStorage` every time the screen is viewed. This ensures that when a new bill is added, the "Paycheck Checklist" is automatically regenerated using a "smart merge" logic that preserves the user's existing checkmarks.
 
-[Software Demo Video](I will add the link before November 8, 2025)
+[Software Demo Video Module 1](https://www.youtube.com/watch?v=efo2IEC0RtQ)
 
 # Development Environment
 
