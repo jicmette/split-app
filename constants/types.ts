@@ -12,3 +12,13 @@ export type Bill = {
   amount: number;
   dueDay: number;
 };
+
+// Paycheck Plan Item Types
+export type PaycheckPlanItem = {
+  billId: string;
+  name: string;
+  totalAmount: number;
+  amountToSetAside: number;
+  dueDay: number;
+  isSaved: boolean;
+};

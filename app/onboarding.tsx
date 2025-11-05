@@ -4,7 +4,6 @@ import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 
-// This is the function that runs when you press "Done" or "Skip"
 const donePressed = async (router: any) => {
   try {
     await AsyncStorage.setItem('hasCompletedOnboarding', 'true');
