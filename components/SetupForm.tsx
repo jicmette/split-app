@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginBottom: 10,
-    width: '48%', // Two buttons per row
+    width: '48%',
     alignItems: 'center',
   },
   freqButtonSelected: {
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   saveButton: {
-    backgroundColor: '#34C759', // Green
+    backgroundColor: '#34C759',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
