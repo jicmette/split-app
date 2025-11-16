@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAuth, signOut } from "@react-native-firebase/auth";
+import { doc, getFirestore, setDoc } from "@react-native-firebase/firestore";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Link, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
@@ -78,10 +79,18 @@ export default function DashboardScreen() {
 
   const handleSaveProfile = async (profile: UserProfile) => {
     try {
-      await AsyncStorage.setItem("userProfile", JSON.stringify(profile));
-      setUserProfile(profile);
+      const user = getAuth().currentUser;
+      if(!user) {
+        throw new Error("No user logged in.");
+      }
+      const uid = user.uid;
+      const db = getFirestore();
+      const userDocRef = doc(db, "users", uid)
+      await setDoc(userDocRef, profile);
+      setUserProfile(profile)
     } catch (e) {
       console.error("Failed to save profile", e);
+      Alert.alert("Error", "Could not save your profile");
     }
   };
 
