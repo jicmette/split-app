@@ -1,8 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth, signOut } from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Link, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -19,6 +22,7 @@ export default function DashboardScreen() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userBills, setBills] = useState<Bill[]>([]);
   const [paycheckPlan, setPaycheckPlan] = useState<PaycheckPlanItem[]>([]);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -95,13 +99,26 @@ export default function DashboardScreen() {
     }
   };
 
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+      await GoogleSignin.signOut();
+    } catch (error: any) {
+      Alert.alert("Sign Out Error", error.message);
+      setIsSigningOut(false);
+    }
+  };
+
   if (isLoading) {
     return <ActivityIndicator size="large" style={styles.centered} />;
   }
 
   // State 1, user has no profile set up
   if (!userProfile) {
-    return <SetupForm onSave={handleSaveProfile} />;
+    const userName = getAuth().currentUser?.displayName || 'User';
+    return <SetupForm onSave={handleSaveProfile} userNameFromGoogle={userName}/>;
   }
 
   const formattedSalary = new Intl.NumberFormat().format(userProfile.salary);
@@ -119,24 +136,37 @@ export default function DashboardScreen() {
   // State 2: user has profile but no bills
   if (userBills.length === 0) {
     return (
-      <View style={styles.centered}>
-        <Text style={styles.title}>Profile</Text>
-        <Text style={styles.title}>{userProfile.name}</Text>
-        <Text style={styles.subtitle}>Paycheck: ${formattedSalary}</Text>
-        <Text style={styles.subtitle}>
-          Frequency: {userProfile.payFrequency}
-        </Text>
-        <Text
-          style={[styles.subtitle, { marginTop: 40, paddingHorizontal: 20 }]}
-        >
-          Great! Your profile is set up. Next, lets add your monthly bills.
-        </Text>
-        <Link href="/modal" asChild>
-          <Pressable style={styles.addButton}>
-            <Text style={styles.addButtonText}>+ Add First Bill</Text>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Pressable
+            style={styles.signOutButton}
+            onPress={handleSignOut}
+            disabled={isSigningOut}
+          >
+            <Text style={styles.signOutButtonText}>
+              {isSigningOut ? "Signing Out..." : "Sign Out"}
+            </Text>
           </Pressable>
-        </Link>
-      </View>
+        </View>
+        <View style={styles.centered}>
+          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.title}>{userProfile.name}</Text>
+          <Text style={styles.subtitle}>Paycheck: ${formattedSalary}</Text>
+          <Text style={styles.subtitle}>
+            Frequency: {userProfile.payFrequency}
+          </Text>
+          <Text
+            style={[styles.subtitle, { marginTop: 40, paddingHorizontal: 20 }]}
+          >
+            Great! Your profile is set up. Next, lets add your monthly bills.
+          </Text>
+          <Link href="/modal" asChild>
+            <Pressable style={styles.addButton}>
+              <Text style={styles.addButtonText}>+ Add First Bill</Text>
+            </Pressable>
+          </Link>
+        </View>
+      </ScrollView>
     );
   }
 
@@ -144,6 +174,15 @@ export default function DashboardScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
+        <Pressable
+          style={styles.signOutButton}
+          onPress={handleSignOut}
+          disabled={isSigningOut}
+        >
+          <Text style={styles.signOutButtonText}>
+            {isSigningOut ? "Signing Out..." : "Sign Out"}
+          </Text>
+        </Pressable>
         <Text style={styles.title}>Profile</Text>
         <Text style={styles.title}>{userProfile.name}</Text>
         <Text style={styles.subtitle}>Paycheck: ${formattedSalary}</Text>
@@ -343,6 +382,19 @@ const styles = StyleSheet.create({
   addMoreButtonText: {
     color: "#fff",
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  signOutButton: {
+    backgroundColor: "#FF3B30",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginRight: 20
+  },
+  signOutButtonText: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });

@@ -14,8 +14,8 @@ import { UserProfile } from '../constants/types';
 
 const FREQUENCIES = ['Weekly', 'Bi-weekly', 'Semi-monthly', 'Monthly'];
 
-export default function SetupForm({ onSave }: { onSave: (profile: UserProfile) => void }) {
-  const [name, setName] = useState('');
+export default function SetupForm({ onSave, userNameFromGoogle, }: { onSave: (profile: UserProfile) => void; userNameFromGoogle: string; }) {
+  const [name, setName] = useState(userNameFromGoogle);
   const [salary, setSalary] = useState('');
   const [payFrequency, setPayFrequency] = useState<'Weekly' | 'Bi-weekly' | 'Semi-monthly' | 'Monthly' | null>(null);
 
@@ -45,13 +45,12 @@ export default function SetupForm({ onSave }: { onSave: (profile: UserProfile) =
           <Text style={styles.title}>Welcome!</Text>
           <Text style={styles.subtitle}>Lets set up your budget plan.</Text>
 
-          <Text style={styles.label}>What is your name?</Text>
+          <Text style={styles.label}>Your Name</Text>
           <TextInput
-            style={styles.input}
-            placeholder="Joe Smith"
-            keyboardType="default"
+            style={[styles.input, styles.inputDisabled]}
             value={name}
             onChangeText={setName}
+            editable={false}
           />
 
           <Text style={styles.label}>What is your salary per paycheck?</Text>
@@ -179,5 +178,9 @@ const styles = StyleSheet.create({
   keyboardAvoidingContainer: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  inputDisabled: {
+    backgroundColor: '#f4f4f4',
+    color: '#888',
   },
 });
