@@ -16,8 +16,7 @@ import {
 } from "react-native";
 
 GoogleSignin.configure({
-  webClientId:
-    "339869616031-8b5qmjuoklpquo6h5hn6o6pnimcri4bn.apps.googleusercontent.com",
+  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
 });
 
 export default function LoginScreen() {
