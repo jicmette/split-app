@@ -1,4 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth } from "@react-native-firebase/auth";
+import { arrayUnion, doc, getFirestore, updateDoc } from "@react-native-firebase/firestore";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -47,14 +48,19 @@ export default function AddBillModal() {
     };
 
     try {
-      const existingBillsString = await AsyncStorage.getItem("userBills");
-      const existingBills: Bill[] = existingBillsString
-        ? JSON.parse(existingBillsString)
-        : [];
+      const user = getAuth().currentUser;
+      if (!user) {
+        throw new Error("No user is logged in.")
+      }
 
-      const updatedBills = [...existingBills, newBill];
+      const uid = user.uid;
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', uid);
 
-      await AsyncStorage.setItem("userBills", JSON.stringify(updatedBills));
+      await updateDoc(userDocRef, {
+        bills: arrayUnion(newBill)
+      });
+
 
       if (router.canGoBack()) {
         router.back();
