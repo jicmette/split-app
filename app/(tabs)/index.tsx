@@ -1,6 +1,7 @@
 import { calculatePaycheckPlan } from "@/utils/planCalculator";
 import { getAuth, signOut } from "@react-native-firebase/auth";
 import {
+  arrayRemove,
   doc,
   getDoc,
   getFirestore,
@@ -120,6 +121,33 @@ export default function DashboardScreen() {
     }
   };
 
+  const handleDeleteBill = async (billId: string) => {
+    try {
+      const billtoRemove = userBills.find((bill) => bill.id === billId);
+      if (!billtoRemove) return;
+
+      const updatedBills = userBills.filter((bill) => bill.id !== billId);
+      const updatedPlan = paycheckPlan.filter((plan) => plan.billId !== billId);
+
+      setBills(updatedBills);
+      setPaycheckPlan(updatedPlan);
+
+      const user = getAuth().currentUser;
+      if (!user) return;
+
+      const db = getFirestore();
+      const userDocRef = doc(db, "users", user.uid);
+
+      await updateDoc(userDocRef, {
+        bills: arrayRemove(billtoRemove),
+        paycheckPlan: updatedPlan,
+      });
+    } catch (error) {
+      console.error("Failed to delete bill.", error);
+      Alert.alert("Error", "Could not delete bill.");
+    }
+  };
+
   const handleSignOut = async () => {
     setIsSigningOut(true);
     try {
@@ -224,7 +252,7 @@ export default function DashboardScreen() {
           style={[styles.billItem, item.isSaved && styles.billItemSaved]}
           onPress={() => handleMarkAsSaved(item.billId)}
         >
-          <View>
+          <View style={{ flex: 1 }}>
             <Text
               style={[styles.billName, item.isSaved && styles.billNameSaved]}
             >
@@ -245,7 +273,15 @@ export default function DashboardScreen() {
             <Text style={styles.summaryLabel}>Due Day:</Text>
             <Text style={styles.summaryValue}>{item.dueDay}</Text>
           </View>
-          <Text style={styles.checkIcon}>{item.isSaved ? "🔒" : "🔓"}</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text style={styles.checkIcon}>{item.isSaved ? "🔒" : "🔓"}</Text>
+            <Pressable
+              onPress={() => handleDeleteBill(item.billId)}
+              style={{ marginTop: 10 }}
+            >
+              <Text style={{ fontSize: 20 }}>🗑️</Text>
+            </Pressable>
+          </View>
         </Pressable>
       ))}
 
