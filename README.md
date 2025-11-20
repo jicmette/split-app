@@ -1,39 +1,69 @@
-# Overview
+# Split App - Personal Finance Tracker
 
-As a developer, I'm always looking to expand my skills from the web to other platforms. This project represents my first step into mobile development, applying my existing knowledge of React to the React Native ecosystem.
+As a developer, I'm always looking to build scalable, real-world applications. This project represents my progression from a local-only mobile app to a full-stack cloud application.
 
-This software is a proactive paycheck planner app, designed to help users budget their salary. The app's core feature is a "Paycheck Checklist," which is automatically calculated based on the user's pay frequency and their list of monthly bills. It shows the user exactly how much money to set aside from each paycheck to cover all their bills.
+"Split" is a proactive paycheck planner. It helps users budget their salary by calculating a "Paycheck Checklist," showing exactly how much money to set aside from each paycheck to cover monthly bills.
 
-The purpose of this specific module was to build the app's complete local functionality. This involved setting up the Expo dev environment and building a robust, multi-state user flow managed by React Hooks. The app's workflow includes:
+---
 
-1.  **Onboarding:** A one-time tutorial for new users, managed by checking `AsyncStorage`.
-2.  **State 1 (Profile Setup):** A "smart" dashboard that prompts new users to fill out a `SetupForm` component to save their name, salary, and pay frequency.
-3.  **State 2 (Add Bills):** After the profile is saved, the dashboard prompts the user to add their first bill using a modal.
-4.  **State 3 (Paycheck Checklist):** The main dashboard displays the full, interactive checklist. Users can tap each bill to mark it as "saved" (🔒/🔓).
-5.  **Smart Data Syncing:** The dashboard uses the `useFocusEffect` hook to load all data from `AsyncStorage` every time the screen is viewed. This ensures that when a new bill is added, the "Paycheck Checklist" is automatically regenerated using a "smart merge" logic that preserves the user's existing checkmarks.
+## Module 1: Mobile App Development
 
-[Software Demo Video Module 1](https://www.youtube.com/watch?v=efo2IEC0RtQ)
+### Overview
+The purpose of this module was to build the foundational **frontend** and **local functionality** of the app. I focused on mastering the React Native ecosystem, file-based routing, and local data persistence.
 
-# Development Environment
+**Key Features Implemented:**
+1.  **Onboarding Flow:** A one-time tutorial for new users, managed by checking `AsyncStorage`.
+2.  **State Machine Dashboard:** A smart UI that guides the user through **Profile Setup** (State 1) and **Adding Bills** (State 2) before showing the main checklist.
+3.  **Bills Checklist (State 3):** The core feature that automatically calculates saving amounts based on the user's pay frequency.
+4.  **Local Storage:** All user data (profile, bills, and checklist status) was persisted locally on the device using **`AsyncStorage`**.
+5.  **Architecture:** I refactored business logic into utility files (like `planCalculator.ts`) and created reusable UI components to keep the codebase clean.
 
+[Software Demo Video - Module 1](https://www.youtube.com/watch?v=efo2IEC0RtQ)
+
+### Development Environment (Module 1)
 * **IDE:** Visual Studio Code
 * **Framework:** React Native (with Expo)
-* **Testing:** Android Studio (Emulator) & Expo Go (for iOS device)
-* **Package Manager:** `pnpm`
-* **Version Control:** Git / GitHub
-* **Navigation:** **Expo Router** (File-based navigation)
+* **Navigation:** Expo Router
+* **Local Storage:** AsyncStorage
 * **State Management:** React Hooks (`useState`, `useCallback`, `useFocusEffect`)
-* **Local Storage:** `AsyncStorage` (for persisting all user data)
-* **Architecture:**
-    * Refactored all business logic (the "calculator") into a `utils/planCalculator.ts` file.
-    * Centralized all data models (`UserProfile`, `Bill`, `PaycheckPlanItem`) in `constants/types.ts`.
-    * Reusable UI (like `SetupForm`) was extracted into the `components/` folder.
+* **Testing:** Android Studio (Emulator) & Expo Go (iOS)
+* **Language:** TypeScript (TSX)
 
-The app is written in **TypeScript (TSX)**.
+---
 
-# Useful Websites
+## Module 2: Cloud Databases
+
+### Overview
+The purpose of this module was to migrate the app from a local-only solution to a **cloud-connected full-stack application**. I integrated a Backend-as-a-Service (BaaS) to handle secure user authentication and real-time data syncing across devices.
+
+**Key Features Implemented:**
+1.  **Authentication:** Implemented OAuth 2.0 with **Google Sign-In** and **Firebase Auth** to securely manage user sessions.
+2.  **Cloud Database:** Migrated the entire data layer from `AsyncStorage` to **Cloud Firestore** (NoSQL).
+3.  **Data Modeling:** Structured user data into scalable Firestore documents (`users/{uid}`) containing profiles, bill arrays, and checklist plans.
+4.  **Full CRUD Operations:** Refactored the app to perform all operations directly in the cloud:
+    * **Create:** Adding new bills via a modal.
+    * **Read:** Retrieving the user's profile and bills on login.
+    * **Update:** Marking checklist items as "saved" (🔒/🔓) updates the cloud database instantly.
+    * **Delete:** Permanently removing bills from the Firestore array.
+
+[Software Demo Video - Module 2](I will add the link before November 22, 2025)
+
+### Development Environment (Module 2)
+* **Backend:** Google Firebase
+    * **Authentication:** Firebase Auth (Google Provider)
+    * **Database:** Cloud Firestore
+* **Key Libraries:**
+    * `@react-native-firebase` (App, Auth, Firestore)
+    * `@react-native-google-signin/google-signin`
+* **Build Tools:** Expo Development Build (required for native Google Sign-In code)
+* **Version Control:** Git / GitHub (Feature branching workflow)
+
+---
+
+## Useful Websites
 
 * [Expo Documentation](https://docs.expo.dev/)
-* [Expo Router Documentation](https://docs.expo.dev/router/overview/)
-* [React Navigation Docs](https://reactnavigation.org/)
+* [React Native Firebase Documentation](https://rnfirebase.io/)
+* [Firebase Console](https://console.firebase.google.com/)
 * [React Native - AsyncStorage Docs](https://react-native-async-storage.github.io/async-storage/)
+* [Firestore Data Modeling Guide](https://firebase.google.com/docs/firestore/manage-data/structure-data)
