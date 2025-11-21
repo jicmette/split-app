@@ -46,7 +46,7 @@ The purpose of this module was to migrate the app from a local-only solution to 
     * **Update:** Marking checklist items as "saved" (🔒/🔓) updates the cloud database instantly.
     * **Delete:** Permanently removing bills from the Firestore array.
 
-[Software Demo Video - Module 2](I will add the link before November 22, 2025)
+[Software Demo Video - Module 2](https://www.youtube.com/watch?v=rozjEs-1PDE)
 
 ### Development Environment (Module 2)
 * **Backend:** Google Firebase
